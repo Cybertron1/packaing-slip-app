@@ -6,7 +6,7 @@
     "test": "jest",
     "dev": "cross-env NODE_ENV=development nodemon ./server/index.js --watch ./server/server.js",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build",
-    "start": "cross-env NODE_ENV=production node ./server/index.js"
+    "start": "cross-env NODE_ENV=production node --inspect=8080 --optimize_for_size --max_old_space_size=460 ./server/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.12.11",
     "@babel/register": "^7.12.10",
+    "@bluebeela/nextjs-shopify-auth": "^1.0.2",
     "@shopify/app-bridge-react": "^1.15.0",
     "@shopify/app-cli-node-generator-helper": "^1.1.2",
     "@shopify/koa-shopify-auth": "^3.2.0",
