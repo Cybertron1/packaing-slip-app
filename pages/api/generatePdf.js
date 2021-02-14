@@ -1,7 +1,7 @@
 import nc from 'next-connect';
 import accessToken from "../../middleware/accessToken";
 import { createPdf } from "../../pdf/pdf";
-
+import fs from 'fs';
 export default nc()
   .use(accessToken)
   .post(async (req, res) => {
@@ -50,7 +50,13 @@ export default nc()
     const creator = createPdf(orders);
 
     creator.toStream((err, stream) => {
-      console.log(err);
+      console.log(fs.readdirSync('/var/task/node_modules/'));
+      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt'));
+      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib'));
+      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom'));
+      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom/bin'));
+      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs'));
+      console.log(fs.readdirSync('/var/task/node_modules/html-pdf/lib/scripts/'));
       if (err) return res.send(err.stack);
       console.log("write head");
       res.writeHead(200, { 'Content-type': 'application/pdf' })
