@@ -1,0 +1,7 @@
+{
+  "functions":{
+    "api/generatePdf": {
+      "includeFiles": "template/template.html"
+    }
+  }
+}
