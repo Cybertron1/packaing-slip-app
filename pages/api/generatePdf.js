@@ -47,10 +47,21 @@ export default nc()
         return {}
       }
     });
-    const creator = createPdf(orders);
+    let creator;
+    try {
+      creator = createPdf(orders);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("fml");
+      return;
+    }
+    console.log("creator");
     creator.toStream((err, stream) => {
+      console.log("toStream");
       if (err) return res.end(err.stack)
+      console.log("write head");
       res.writeHead(200, { 'Content-type': 'application/pdf' })
+      console.log("pipe stream");
       stream.pipe(res)
     });
     return new Promise(resolve => res.on('finish', resolve));

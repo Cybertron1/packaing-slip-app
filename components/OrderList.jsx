@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { ResourceItem, ResourceList, Spinner, TextStyle } from "@shopify/polaris";
 import useAllOrders from "./hooks/useAllOrders";
 import styles from './OrderList.module.scss'
-import { throwServerError, useReactiveVar } from "@apollo/client";
 import { useFetch } from "./AppContext";
 
 const renderItem = (item) => {
