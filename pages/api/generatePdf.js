@@ -20,7 +20,6 @@ export default nc()
       return res.status(500).send("Couldn't fetch count of orders");
     }
     const data = await response.json();
-    console.log(data);
     const orders = data.orders.map(order => {
       try {
         return {
