@@ -48,7 +48,6 @@ export default nc()
         return {}
       }
     });
-    console.log(orders);
     const creator = createPdf(orders);
     creator.toStream((err, stream) => {
       if (err) return res.end(err.stack)
