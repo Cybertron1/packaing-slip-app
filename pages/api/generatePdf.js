@@ -19,6 +19,7 @@ export default nc()
       return res.status(500).send("Couldn't fetch count of orders");
     }
     const data = await response.json();
+    console.log(data);
     const orders = data.orders.map(order => {
       try {
         return {
@@ -47,6 +48,7 @@ export default nc()
         return {}
       }
     });
+    console.log(orders);
     const creator = createPdf(orders);
     creator.toStream((err, stream) => {
       if (err) return res.end(err.stack)

@@ -4,6 +4,7 @@ import {compile} from 'handlebars';
 
 const createPdf = (orders) => {
   const html = fs.readFileSync('./template/template.html', 'utf8');
+  console.log(html);
   const template = compile(html);
   const htmlOrders = template(orders);
   const options = {

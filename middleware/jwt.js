@@ -10,7 +10,6 @@ async function auth(req, res, next) {
   }
 
   let token = req.headers.authorization.replace('Bearer ', '');
-  console.log(secret);
   try {
     token = jwt.verify(token, secret);
   } catch (err) {
