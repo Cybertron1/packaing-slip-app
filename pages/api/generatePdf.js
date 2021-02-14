@@ -1,6 +1,6 @@
 import nc from 'next-connect';
-import accessToken from "./_middleware/accessToken";
-import { createPdf } from "./_pdf/pdf";
+import accessToken from "../../middleware/accessToken";
+import { createPdf } from "../../pdf/pdf";
 
 export default nc()
   .use(accessToken)

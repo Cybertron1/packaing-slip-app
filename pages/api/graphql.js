@@ -1,5 +1,5 @@
 import nc from 'next-connect';
-import accessToken from "./_middleware/accessToken";
+import accessToken from "../../middleware/accessToken";
 
 const handler = nc()
   .use(accessToken)

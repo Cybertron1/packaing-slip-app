@@ -1,8 +1,8 @@
 import nc from 'next-connect';
-import db from '../_middleware/database'
-import Shop from "../_models/Shop";
-import verifyShop from "../_middleware/verifyShop";
-import shopifyToken from "../_middleware/shopifyToken";
+import db from '../../../middleware/database'
+import Shop from "../../../models/Shop";
+import verifyShop from "../../../middleware/verifyShop";
+import shopifyToken from "../../../middleware/shopifyToken";
 
 const store = async (shop, accessToken) => {
   try {
@@ -31,7 +31,8 @@ export default nc()
   .get(async (req, res) => {
     try {
       const { shop: shopName } = req.query;
-      const shop = await Shop.findOne({ shop: shopName }).orFail(new Error("Server error"));
+      const shop = await Shop.findOne({ shop: shopName });
+      console.log(shop);
       if (shop && shop.isInstalled) {
         const isAvailable = await store();
         if (isAvailable) {
@@ -49,6 +50,7 @@ export default nc()
       const redirectUrl = shopifyToken.generateAuthUrl(shopName, process.env.SCOPES.split(","), nonce, 'online');
       return res.redirect(redirectUrl);
     } catch (error) {
+      console.log(error);
       return res.status(500).send(error.message);
     }
   });
