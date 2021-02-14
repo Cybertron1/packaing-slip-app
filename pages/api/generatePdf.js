@@ -47,18 +47,11 @@ export default nc()
         return {}
       }
     });
-    let creator;
-    try {
-      creator = createPdf(orders);
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("fml");
-      return;
-    }
-    console.log("creator");
+    const creator = createPdf(orders);
+
     creator.toStream((err, stream) => {
-      console.log("toStream");
-      if (err) return res.end(err.stack)
+      console.log(err);
+      if (err) return res.send(err.stack);
       console.log("write head");
       res.writeHead(200, { 'Content-type': 'application/pdf' })
       console.log("pipe stream");
