@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/packaging_slip_printer.iml" filepath="$PROJECT_DIR$/.idea/packaging_slip_printer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/session-test.iml" filepath="$PROJECT_DIR$/.idea/session-test.iml" />
     </modules>
   </component>
 </project>

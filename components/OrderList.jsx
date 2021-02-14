@@ -3,6 +3,7 @@ import {ResourceItem, ResourceList, Spinner, TextStyle} from "@shopify/polaris";
 import useAllOrders from "./hooks/useAllOrders";
 import styles from './OrderList.module.scss'
 import {throwServerError, useReactiveVar} from "@apollo/client";
+import { useFetch } from "./AppContext";
 
 const renderItem = (item) => {
   const {name, id} = item;
@@ -28,14 +29,16 @@ const OrderList = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [orders, setOrders] = useState([]);
   const download = useRef(null);
+  const fetch = useFetch();
   const createPdf = async () => {
-    const pdf = await fetch('/generatePdf', {
+    const pdf = await fetch('/api/generatePdf', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(selectedItems)
     }).then(res => res.blob());
+    console.log(pdf);
     const url = URL.createObjectURL(pdf)
     window.open(url);
     // download.current.download = 'packaging-slips.pdf';
@@ -75,6 +78,5 @@ const OrderList = () => {
     <a ref={download}/>
   </>;
 }
-//
 
 export default OrderList;

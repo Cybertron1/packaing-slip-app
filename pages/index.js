@@ -1,10 +1,6 @@
-import {Card, Page} from "@shopify/polaris";
+import { Card, Page } from "@shopify/polaris";
 import React from "react";
-import dynamic from 'next/dynamic'
-
-const OrderList = dynamic(() =>
-  import('../components/OrderList')
-);
+import OrderList from "../components/OrderList";
 
 const Index = () => {
   return <Page
