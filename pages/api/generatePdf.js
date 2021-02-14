@@ -50,13 +50,12 @@ export default nc()
     const creator = createPdf(orders);
 
     creator.toStream((err, stream) => {
-      console.log(fs.readdirSync('/var/task/node_modules/'));
-      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt'));
-      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib'));
-      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom'));
-      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom/bin'));
-      console.log(fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs'));
-      console.log(fs.readdirSync('/var/task/node_modules/html-pdf/lib/scripts/'));
+      console.log("node_mods", fs.readdirSync('/var/task/node_modules/'));
+      console.log("phantomjs-prebuilt", fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt'));
+      console.log("lib", fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib'));
+      console.log("phantom", fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom'));
+      console.log("bin", fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom/bin'));
+      console.log("scripts", fs.readdirSync('/var/task/node_modules/html-pdf/lib/scripts/'));
       if (err) return res.send(err.stack);
       console.log("write head");
       res.writeHead(200, { 'Content-type': 'application/pdf' })
