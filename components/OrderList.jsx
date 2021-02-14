@@ -1,12 +1,12 @@
-import React, {useRef, useState} from "react";
-import {ResourceItem, ResourceList, Spinner, TextStyle} from "@shopify/polaris";
+import React, { useRef, useState } from "react";
+import { ResourceItem, ResourceList, Spinner, TextStyle } from "@shopify/polaris";
 import useAllOrders from "./hooks/useAllOrders";
 import styles from './OrderList.module.scss'
-import {throwServerError, useReactiveVar} from "@apollo/client";
+import { throwServerError, useReactiveVar } from "@apollo/client";
 import { useFetch } from "./AppContext";
 
 const renderItem = (item) => {
-  const {name, id} = item;
+  const { name, id } = item;
   return (
     <ResourceItem
       id={id}
@@ -25,7 +25,7 @@ const mapData = (data) => {
 };
 
 const OrderList = () => {
-  const {loading, error, data} = useAllOrders();
+  const { loading, error, data } = useAllOrders();
   const [selectedItems, setSelectedItems] = useState([]);
   const [orders, setOrders] = useState([]);
   const download = useRef(null);
@@ -38,13 +38,8 @@ const OrderList = () => {
       },
       body: JSON.stringify(selectedItems)
     }).then(res => res.blob());
-    console.log(pdf);
     const url = URL.createObjectURL(pdf)
     window.open(url);
-    // download.current.download = 'packaging-slips.pdf';
-    // download.current.href = url;
-    // download.current.click();
-    // window.open("data:application/pdf;base64," + Base64.encode(pdf));
   }
 
   const promotedBulkActions = [
@@ -67,7 +62,7 @@ const OrderList = () => {
   }
   return <>
     <ResourceList
-      resourceName={{singular: 'Order', plural: 'Orders'}}
+      resourceName={{ singular: 'Order', plural: 'Orders' }}
       items={orders}
       selectedItems={selectedItems}
       onSelectionChange={setSelectedItems}

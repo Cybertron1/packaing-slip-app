@@ -1,16 +1,10 @@
 import nc from 'next-connect';
 import accessToken from "../../middleware/accessToken";
 import { createPdf } from "../../pdf/pdf";
-import fs from 'fs';
-import {join} from 'path';
 
 export default nc()
   .use(accessToken)
   .post(async (req, res) => {
-    const html = fs.readFileSync(join(__dirname, 'template', 'template.html'), 'utf8');
-    console.log(html);
-    const test = fs.readdirSync('./');
-    console.log(test);
     const ids = req.body.map(id => id.split('/').slice(-1).pop());
     const idsString = ids.join();
     const headers = {
