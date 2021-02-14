@@ -1,6 +1,6 @@
 {
-  "functions":{
-    "api/generatePdf": {
+  "functions": {
+    "pages/api/generatePdf.js": {
       "includeFiles": "template/template.html"
     }
   }
