@@ -2,7 +2,7 @@ import nc from 'next-connect';
 import accessToken from "../middleware/accessToken";
 import { createPdf } from "../pdf/pdf";
 import stream from 'stream';
-
+import fetch from "node-fetch";
 
 export default nc()
   .use(accessToken)
