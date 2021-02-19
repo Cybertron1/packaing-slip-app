@@ -1,6 +1,6 @@
 import nc from 'next-connect';
-import accessToken from "../../middleware/accessToken";
-import { createPdf } from "../../pdf/pdf";
+import accessToken from "../middleware/accessToken";
+import { createPdf } from "../pdf/pdf";
 import stream from 'stream';
 
 
