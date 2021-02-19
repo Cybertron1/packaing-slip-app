@@ -38,7 +38,6 @@ const OrderList = () => {
       body: JSON.stringify(selectedItems)
     });
     if(!pdf.ok) {
-      console.log("error");
       return;
     }
     const labels = await pdf.blob();

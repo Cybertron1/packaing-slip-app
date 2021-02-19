@@ -7,65 +7,54 @@ import fetch from "node-fetch";
 export default nc()
   .use(accessToken)
   .post(async (req, res) => {
-    try {
-      console.log("hi");
-      const ids = req.body.map(id => id.split('/').slice(-1).pop());
-      console.log(ids);
-      const idsString = ids.join();
-      const headers = {
-        'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': req.accessToken,
-      };
-      const ordersUrl = `https://${req.shop}.myshopify.com/admin/api/2021-01/orders.json?ids=${idsString}`;
-      console.log("orders");
-      console.log(headers);
-      const response = await fetch(ordersUrl, {
-        headers
-      });
-      if (!response.ok) {
-        console.log("error");
-        return res.status(401).send("Couldn't fetch count of orders");
-      }
-      console.log("here");
-      const data = await response.json();
-      const orders = data.orders.map(order => {
-        try {
-          return {
-            createdAt: new Date(order.created_at).toLocaleDateString('en', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            }),
-            order: order.name,
-            note: order.note,
-            address: {
-              first_name: order.shipping_address.first_name,
-              last_name: order.shipping_address.last_name,
-              zip: order.shipping_address.zip
-            },
-            items: order.line_items.map(item => {
-              return {
-                quantity: item.quantity,
-                title: item.title,
-                variant: item.variant_title,
-                properties: item.properties
-              }
-            })
-          }
-        } catch (error) {
-          return {}
-        }
-      });
-      console.log("go to pdf");
-      const pdf = await createPdf(orders);
-      res.writeHead(200, { 'Content-type': 'application/pdf' })
-
-      let duplex = new stream.Duplex();
-      duplex.push(pdf);
-      duplex.push(null);
-      duplex.pipe(res);
-      return new Promise(resolve => res.on('finish', resolve));
-    }catch (error){
-      console.log(error);
+    const ids = req.body.map(id => id.split('/').slice(-1).pop());
+    const idsString = ids.join();
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-Shopify-Access-Token': req.accessToken,
+    };
+    const ordersUrl = `https://${req.shop}.myshopify.com/admin/api/2021-01/orders.json?ids=${idsString}`;
+    const response = await fetch(ordersUrl, {
+      headers
+    });
+    if (!response.ok) {
+      return res.status(500).send("Couldn't fetch count of orders");
     }
+    const data = await response.json();
+    const orders = data.orders.map(order => {
+      try {
+        return {
+          createdAt: new Date(order.created_at).toLocaleDateString('en', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          }),
+          order: order.name,
+          note: order.note,
+          address: {
+            first_name: order.shipping_address.first_name,
+            last_name: order.shipping_address.last_name,
+            zip: order.shipping_address.zip
+          },
+          items: order.line_items.map(item => {
+            return {
+              quantity: item.quantity,
+              title: item.title,
+              variant: item.variant_title,
+              properties: item.properties
+            }
+          })
+        }
+      } catch (error) {
+        return {}
+      }
+    });
+    const pdf = await createPdf(orders);
+    res.writeHead(200, { 'Content-type': 'application/pdf' })
+
+    let duplex = new stream.Duplex();
+    duplex.push(pdf);
+    duplex.push(null);
+    duplex.pipe(res);
+    return new Promise(resolve => res.on('finish', resolve));
   });

@@ -7,7 +7,6 @@ export default nc()
   .use(database)
   .use(jwt)
   .use(async (req, res, next) => {
-    console.log("accessToken");
     let shop = req.token.dest.replace("https://", "")
       .split(".")[0];
     const result = await Shop.findOne(
