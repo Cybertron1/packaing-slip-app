@@ -1,8 +1,8 @@
 import nc from 'next-connect';
-import db from '../../middleware/database'
-import Shop from "../../models/Shop";
-import verifyShop from "../../middleware/verifyShop";
-import shopifyToken from "../../middleware/shopifyToken";
+import db from '../../../middleware/database'
+import Shop from "../../../models/Shop";
+import verifyShop from "../../../middleware/verifyShop";
+import shopifyToken from "../../../middleware/shopifyToken";
 
 const store = async (shop, accessToken) => {
   try {
