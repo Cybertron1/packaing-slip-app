@@ -7,6 +7,7 @@ import stream from 'stream';
 export default nc()
   .use(accessToken)
   .post(async (req, res) => {
+    console.log("hi");
     const ids = req.body.map(id => id.split('/').slice(-1).pop());
     const idsString = ids.join();
     const headers = {

@@ -4,6 +4,7 @@ import nc from 'next-connect';
 const secret = process.env.SHOPIFY_API_SECRET;
 
 async function auth(req, res, next) {
+  console.log("jwt");
   if (!req.headers.authorization) {
     res.status(401).send('JWT not provided');
     res.end();
