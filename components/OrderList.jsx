@@ -36,8 +36,13 @@ const OrderList = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(selectedItems)
-    }).then(res => res.blob());
-    const url = URL.createObjectURL(pdf)
+    });
+    if(!pdf.ok) {
+      console.log("error");
+      return;
+    }
+    const labels = await pdf.blob();
+    const url = URL.createObjectURL(labels);
     window.open(url);
   }
 

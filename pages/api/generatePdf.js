@@ -1,7 +1,9 @@
 import nc from 'next-connect';
 import accessToken from "../../middleware/accessToken";
 import { createPdf } from "../../pdf/pdf";
-import fs from 'fs';
+import stream from 'stream';
+
+
 export default nc()
   .use(accessToken)
   .post(async (req, res) => {
@@ -47,20 +49,12 @@ export default nc()
         return {}
       }
     });
-    const creator = createPdf(orders);
+    const pdf = await createPdf(orders);
+    res.writeHead(200, { 'Content-type': 'application/pdf' })
 
-    creator.toStream((err, stream) => {
-      console.log("node_mods", fs.readdirSync('/var/task/node_modules/'));
-      console.log("phantomjs-prebuilt", fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt'));
-      console.log("lib", fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib'));
-      console.log("phantom", fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom'));
-      console.log("bin", fs.readdirSync('/var/task/node_modules/phantomjs-prebuilt/lib/phantom/bin'));
-      console.log("scripts", fs.readdirSync('/var/task/node_modules/html-pdf/lib/scripts/'));
-      if (err) return res.send(err.stack);
-      console.log("write head");
-      res.writeHead(200, { 'Content-type': 'application/pdf' })
-      console.log("pipe stream");
-      stream.pipe(res)
-    });
+    let duplex = new stream.Duplex();
+    duplex.push(pdf);
+    duplex.push(null);
+    duplex.pipe(res);
     return new Promise(resolve => res.on('finish', resolve));
   });
