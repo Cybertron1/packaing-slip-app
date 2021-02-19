@@ -6,7 +6,8 @@ import chrome from 'chrome-aws-lambda';
 const createPdf = async (orders) => {
   const template = compile(pdfTemplate);
   const htmlOrders = template(orders);
-  const chromeExecPath = await chrome.executablePath
+  const chromeExecPath = await chrome.executablePath;
+  console.log(chromeExecPath);
   const browser = await puppeteer.launch({
     args: chrome.args,
     executablePath: chromeExecPath || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
