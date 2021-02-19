@@ -4,6 +4,7 @@ import puppeteer from "puppeteer-core";
 import chrome from 'chrome-aws-lambda';
 
 const createPdf = async (orders) => {
+  console.log("create");
   const template = compile(pdfTemplate);
   const htmlOrders = template(orders);
   const chromeExecPath = await chrome.executablePath;

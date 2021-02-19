@@ -19,8 +19,10 @@ export default nc()
       headers
     });
     if (!response.ok) {
-      return res.status(500).send("Couldn't fetch count of orders");
+      console.log("error");
+      return res.status(401).send("Couldn't fetch count of orders");
     }
+    console.log("here");
     const data = await response.json();
     const orders = data.orders.map(order => {
       try {
@@ -50,6 +52,7 @@ export default nc()
         return {}
       }
     });
+    console.log("go to pdf");
     const pdf = await createPdf(orders);
     res.writeHead(200, { 'Content-type': 'application/pdf' })
 
