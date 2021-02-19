@@ -39,6 +39,10 @@ export default `<!DOCTYPE html>
   position: relative;
 }
 
+.items li {
+    position: relative;
+}
+
   .properties {
   padding-left: 14px !important;
 }
@@ -95,8 +99,9 @@ Order: {{order}}
 
 <ul class="items">
 {{#each items}}
-<li>{{title}}</li>
-<li>{{variant}}</li>
+<li>
+{{title}}
+{{variant}}
 <p class="quantity">{{quantity}} pcs</p>
 <ul class="properties">
 {{#each properties}}
@@ -104,6 +109,7 @@ Order: {{order}}
 
 {{/each}}
 </ul>
+</li>
 <br>
 {{/each}}
 </ul>
