@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.8",
+    "@next/bundle-analyzer": "^10.0.7",
     "@shopify/app-bridge-react": "^1.15.0",
     "@shopify/app-bridge-utils": "^1.29.0",
     "@shopify/app-cli-node-generator-helper": "^1.1.2",
