@@ -100,13 +100,12 @@ Order: {{order}}
 <ul class="items">
 {{#each items}}
 <li>
-{{title}}
+{{title}}<br>
 {{variant}}
 <p class="quantity">{{quantity}} pcs</p>
 <ul class="properties">
 {{#each properties}}
 <li>{{name}}: {{value}}</li>
-
 {{/each}}
 </ul>
 </li>
