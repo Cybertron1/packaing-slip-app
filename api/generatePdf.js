@@ -9,12 +9,15 @@ export default nc()
   .post(async (req, res) => {
     console.log("hi");
     const ids = req.body.map(id => id.split('/').slice(-1).pop());
+    console.log(ids);
     const idsString = ids.join();
     const headers = {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': req.accessToken,
     };
     const ordersUrl = `https://${req.shop}.myshopify.com/admin/api/2021-01/orders.json?ids=${idsString}`;
+    console.log("orders");
+    console.log(headers);
     const response = await fetch(ordersUrl, {
       headers
     });
