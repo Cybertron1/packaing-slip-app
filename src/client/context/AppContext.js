@@ -30,21 +30,23 @@ const AppContext = ({children}) => {
     })
   });
 
+  const customFetch = async (url, options) => {
+    if (!sessionToken) {
+      return Promise.reject("Session Token is not initialized yet");
+    }
+    const headers = options && options.headers ? options.headers : {};
+    return fetch(url, {
+      ...options,
+      headers: {
+        ...headers,
+        'Authorization': `Bearer ${sessionToken}`
+      }
+    });
+  }
+
   return <ApolloProvider client={client}>
     <JWTContext.Provider value={{
-      fetch: async (url, options) => {
-        if (!sessionToken) {
-          return Promise.reject("Session Token is not initialized yet");
-        }
-        const headers = options && options.headers ? options.headers : {};
-        return fetch(url, {
-          ...options,
-          headers: {
-            ...headers,
-            'Authorization': `Bearer ${sessionToken}`
-          }
-        });
-      }
+      fetch: customFetch
     }}>
       {sessionToken ? children : "Loading"}
     </JWTContext.Provider>

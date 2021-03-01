@@ -1,7 +1,7 @@
 import nextConnect from 'next-connect';
-import db from "../../../middleware/database";
-import Shop from "../../../models/Shop";
-import shopifyToken from "../../../middleware/shopifyToken";
+import db from "../../../src/server/middleware/database";
+import Shop from "../../../src/server/models/Shop";
+import shopifyToken from "../../../src/server/middleware/shopifyToken";
 
 const getShopInfo = async (accessToken, shop) => {
   const headers = {

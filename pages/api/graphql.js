@@ -1,5 +1,5 @@
 import nc from 'next-connect';
-import accessToken from "../../middleware/accessToken";
+import accessToken from "../../src/server/middleware/accessToken";
 
 const handler = nc()
   .use(accessToken)
@@ -15,7 +15,6 @@ const handler = nc()
       body: JSON.stringify(req.body),
       redirect: 'follow'
     });
-
     const data = await response.json();
     res.json(data);
   })
