@@ -46,6 +46,6 @@ const mapOrderDetails = (orders) => orders.map(order => {
   }
 });
 
-export { getOrderDetails, mapOrderDetails }
+export { mapOrderDetails }
 
 export default getOrderDetails;

@@ -1,9 +1,8 @@
 import nc from "next-connect";
 import accessToken from "../middleware/accessToken";
 import getOrderDetails, { mapOrderDetails } from "./orderDetails";
-import { createPdf } from "./pdf";
+import createPdf from "./createPdf";
 import { Duplex } from "stream";
-import { tag } from "./tagger";
 
 export default nc()
   .use(accessToken)
@@ -16,11 +15,9 @@ export default nc()
     const orders = mapOrderDetails(orderDetails);
     try {
       const pdf = await createPdf(orders);
-      const result = await tag(req, ids, orderDetails);
 
       res.writeHead(200, {
-        'Content-type': 'application/pdf',
-        'tagged': JSON.stringify(result)
+        'Content-type': 'application/pdf'
       })
       let duplex = new Duplex();
       duplex.push(pdf);
@@ -30,4 +27,5 @@ export default nc()
     } catch (error) {
       return res.send("There has been an internal server error").status(500);
     }
+
   });

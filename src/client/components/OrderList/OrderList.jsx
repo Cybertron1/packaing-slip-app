@@ -1,15 +1,10 @@
-import React, { useMemo, useReducer } from "react";
+import React from "react";
 import {
-  EmptySearchResult,
   IndexTable,
   useIndexResourceState
 } from "@shopify/polaris";
-import useAllOrders from "../../hooks/useAllOrders";
 import styles from './OrderList.module.scss'
-import { useFetch } from "../../context/AppContext";
-import { LoadingState, NoOrdersState } from "../States";
-import { usePrinted } from "../../context/OrdersContext";
-import { createPdf } from "../../helper";
+import { LoadingState } from "../States";
 
 const rowMarkup = (orders, selected) => orders.map((order, index) => {
   const { id, name, date, first, last, total, items } = order;
@@ -34,13 +29,12 @@ const Headings = [
   { title: 'Items' }
 ];
 
-const OrderList = ({ orders, loading, tagAction }) => {
+const OrderList = ({ orders, loading, tagAction, printAction, error, noOrderState }) => {
   const {
     selectedResources,
     allResourcesSelected,
     handleSelectionChange,
   } = useIndexResourceState(orders);
-  const fetch = useFetch();
 
   return <div className={styles['c-index-table-checkbox']}>
     <IndexTable
@@ -49,17 +43,23 @@ const OrderList = ({ orders, loading, tagAction }) => {
       selectedItemsCount={allResourcesSelected ? 'All' : selectedResources.length}
       promotedBulkActions={[
         {
-          content: 'Print packaging labels',
-          onAction: () => createPdf(fetch, selectedResources)
+          content: 'Print',
+          onAction: async () => {
+            await printAction(orders.filter(order => selectedResources.includes(order.id)));
+            handleSelectionChange("all", false, [0, 0]);
+          }
         },
         {
           content: tagAction.content,
-          onAction: () => tagAction.onAction(selectedResources)
+          onAction: async () => {
+            await tagAction.onAction(orders.filter(order => selectedResources.includes(order.id)))
+            handleSelectionChange("all", false, [0, 0]);
+          }
         }
       ]}
       onSelectionChange={handleSelectionChange}
       loading={loading}
-      emptyState={loading ? <LoadingState/> : <NoOrdersState/>}>
+      emptyState={loading ? <LoadingState/> : noOrderState}>
       {rowMarkup(orders, selectedResources)}
     </IndexTable>
   </div>

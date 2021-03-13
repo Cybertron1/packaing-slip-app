@@ -10,10 +10,14 @@ const LoadingState = () => {
     /></div>;
 }
 
-const NoOrdersState = () => {
+const NoOrdersState = ({ printed }) => {
+  const title = printed ? "No printed orders yet" : "No more orders to print";
+  const description = printed ?
+    "To keep track of which orders you already printed, after the PDF was created we tag each order. But it seems you didn't print any orders yet."
+    : "You were using this app a lot. Thank you very much :)";
   return <EmptySearchResult
-    title='No printed orders yet'
-    description="To keep track of which orders you already printed, after the PDF was created we tag each order. But it seems you didn't print any orders yet."
+    title={title}
+    description={description}
     withIllustration
   />
 }

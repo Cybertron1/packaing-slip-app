@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import { useState } from "react";
 import { mapData } from "../helper";
 
 const GET_ORDERS = gql`
@@ -11,6 +10,7 @@ query GetAllUnshippedOrders($query: String!){
         name
         createdAt
         subtotalLineItemsQuantity
+        tags
         totalPriceSet {
           presentmentMoney {
             amount
@@ -27,17 +27,17 @@ query GetAllUnshippedOrders($query: String!){
 }
 `;
 
-const useAllOrders = (shipped) => {
-  const query = shipped ? "fulfillment_status:unshipped AND tag:printed" : "fulfillment_status:unshipped AND NOT tag:printed";
-  const [data, setData] = useState([]);
+const useAllOrders = (printed, set) => {
+  const query = `fulfillment_status:unshipped AND status:open AND ${printed ? '' : 'NOT'} tag:printed`;
   const { loading, error, } = useQuery(GET_ORDERS, {
+    fetchPolicy: "no-cache",
     variables: { query },
     onCompleted: (res) => {
       const data = mapData(res);
-      setData(data);
+      set(data);
     }
   });
-  return { loading, error, data, setData };
+  return { loading, error };
 };
 
 export default useAllOrders;

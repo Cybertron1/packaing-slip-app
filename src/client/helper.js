@@ -28,12 +28,13 @@ const mapData = (data) => {
 };
 
 const createPdf = async (fetch, selected) => {
+  const ids = selected.map(s => s.id);
   const pdf = await fetch('/api/generatePdf', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(selected)
+    body: JSON.stringify(ids)
   });
   if (!pdf.ok) {
     return;
