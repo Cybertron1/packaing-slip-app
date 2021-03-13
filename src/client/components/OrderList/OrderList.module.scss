@@ -1,0 +1,16 @@
+.orders-loader {
+  display: flex;
+  justify-content: center;
+  min-height: 100px;
+  align-items: center;
+}
+
+.c-index-table-checkbox {
+  --p-checkbox-offset: 40px !important;
+
+}
+
+.c-index-table-checkbox tr td:first-child {
+  width: 40px !important;
+}
+

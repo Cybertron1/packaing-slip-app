@@ -8,10 +8,16 @@ async function auth(req, res, next) {
     res.status(401).send('JWT not provided');
     res.end();
   }
-
   let token = req.headers.authorization.replace('Bearer ', '');
   try {
-    token = jwt.verify(token, secret);
+    if (process.env.NODE_ENV === 'development') {
+      console.log("dev");
+      token = jwt.decode(token);
+    } else {
+      console.log("prod");
+      token = jwt.verify(token, secret);
+    }
+
   } catch (err) {
     res.status(401).send('invalid jwt');
     res.end();

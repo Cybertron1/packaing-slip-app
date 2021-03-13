@@ -32,19 +32,7 @@ const AppContext = ({children}) => {
 
   return <ApolloProvider client={client}>
     <JWTContext.Provider value={{
-      fetch: async (url, options) => {
-        if (!sessionToken) {
-          return Promise.reject("Session Token is not initialized yet");
-        }
-        const headers = options && options.headers ? options.headers : {};
-        return fetch(url, {
-          ...options,
-          headers: {
-            ...headers,
-            'Authorization': `Bearer ${sessionToken}`
-          }
-        });
-      }
+      fetch: authenticatedFetch(appBridge)
     }}>
       {sessionToken ? children : "Loading"}
     </JWTContext.Provider>

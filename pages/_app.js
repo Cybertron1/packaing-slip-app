@@ -2,7 +2,7 @@ import {AppProvider} from "@shopify/polaris";
 import {Provider} from "@shopify/app-bridge-react";
 import "@shopify/polaris/dist/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
-import AppContext from "../components/AppContext";
+import AppContext from "../src/client/context/AppContext";
 import React, {useState} from "react";
 
 function MyApp(props) {

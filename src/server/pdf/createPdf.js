@@ -24,4 +24,4 @@ const createPdf = async (orders) => {
   return pdf;
 };
 
-export { createPdf };
+export default createPdf;

@@ -1,13 +1,12 @@
-import { Card, Page } from "@shopify/polaris";
+import { Page } from "@shopify/polaris";
 import React from "react";
-import OrderList from "../components/OrderList";
+import Card from "../src/client/components/Card";
+import Main from '../src/client/pages/main';
 
 const Index = () => {
-  return <Page
-    fullWidth
-    title="Hi">
+  return <Page fullWidth>
     <Card>
-      <OrderList/>
+      <Main/>
     </Card>
   </Page>
 };
