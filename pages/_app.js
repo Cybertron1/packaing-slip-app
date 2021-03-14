@@ -1,9 +1,9 @@
-import {AppProvider} from "@shopify/polaris";
-import {Provider} from "@shopify/app-bridge-react";
+import { AppProvider } from "@shopify/polaris";
+import { Provider } from "@shopify/app-bridge-react";
 import "@shopify/polaris/dist/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
 import AppContext from "../src/client/context/AppContext";
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 function MyApp(props) {
   const [shopUrl, setShopUrl] = useState(props.shopOrigin);
@@ -11,7 +11,7 @@ function MyApp(props) {
   if (shopUrl === undefined) {
     return <div>hey</div>;
   }
-  const {Component} = props;
+  const { Component } = props;
   return (
     <AppProvider i18n={translations}>
       <Provider
@@ -30,10 +30,12 @@ function MyApp(props) {
 }
 
 
-MyApp.getInitialProps = async ({ctx}) => {
+MyApp.getInitialProps = async ({ ctx }) => {
   return {
     shopOrigin: ctx.query.shop
   };
 }
+
+
 
 export default MyApp;
