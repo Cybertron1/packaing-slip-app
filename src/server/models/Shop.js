@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const shopSchema = new Schema({
   shop: {type: String, required: true},
   accessToken: {type: String, default: null},
-  scopes: {type: String, default: null},
+  scopes: {type: [String], default: null},
   isInstalled: {type: Boolean, default: false},
   installedOn: {type: Date, default: null},
   uninstalledOn: {type: Date, default: null},

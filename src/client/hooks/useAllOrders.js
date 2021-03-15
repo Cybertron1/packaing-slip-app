@@ -35,6 +35,9 @@ const useAllOrders = (printed, set) => {
     onCompleted: (res) => {
       const data = mapData(res);
       set(data);
+    },
+    onError: (err) => {
+      console.log(err);
     }
   });
   return { loading, error };

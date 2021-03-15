@@ -20,12 +20,17 @@ const store = async ({ shop, accessToken }) => {
     return false
   }
 }
+
 const auth = async (req) => {
   const { shop: shopName } = req.query;
   const shop = await Shop.findOne({ shop: shopName });
+  let state = 'notInstalled';
   if (shop && shop.isInstalled) {
+    state = 'needsUpdate';
     const isAvailable = await store(shop);
-    if (isAvailable) {
+    const scope = shop.scopes ?? [];
+    const scopes = process.env.SCOPES.split(',').every(val => scope.includes(val));
+    if (isAvailable && scopes) {
       return {
         state: 'installed',
         url: `/?shop=${shopName}.myshopify.com`
@@ -40,7 +45,7 @@ const auth = async (req) => {
     { upsert: true }
   ).orFail(new Error("Server error"));
   return {
-    state: 'notInstalled',
+    state,
     url: shopifyToken.generateAuthUrl(shopName, process.env.SCOPES.split(","), nonce, 'online')
   };
 };

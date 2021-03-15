@@ -7,10 +7,18 @@ import { verifyShop } from "../src/server/middleware/verifyShop";
 import db from "../src/server/middleware/database";
 import shopifyToken from "../src/server/middleware/shopifyToken";
 import auth from "../src/server/middleware/auth";
+import { useAppBridge } from "@shopify/app-bridge-react";
+import { Redirect } from "@shopify/app-bridge/actions";
 
-const Index = ({ error }) => {
+const Index = ({ error, redirectUrl }) => {
+  const app = useAppBridge();
   if (error) {
     return <p>{error}</p>;
+  }
+  if (redirectUrl) {
+    const redirector = Redirect.create(app);
+    redirector.dispatch(Redirect.Action.REMOTE, redirectUrl);
+    return;
   }
   return <Page fullWidth>
     <Card>
@@ -35,7 +43,6 @@ export async function getServerSideProps(context) {
     .use(db)
     .use(shopifyToken)
     .get(async (req, res, next) => {
-
       const result = await auth(req);
       req.state = result.state;
       req.redirect = result.url;
@@ -50,11 +57,17 @@ export async function getServerSideProps(context) {
           permanent: false
         }
       }
+
+    } else if (req.state === 'needsUpdate') {
+      return {
+        props: {
+          redirectUrl: req.redirect
+        }
+      }
     }
   } catch (err) {
     console.log(err);
   }
-
   return {
     props: {}
   };

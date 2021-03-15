@@ -111,7 +111,6 @@ const Main = () => {
       id: 'printed-orders'
     }
   ];
-
   return <Tabs tabs={tabs} selected={selected} onSelect={handleTabChange} fitted>
     {tabs[selected].component}
   </Tabs>

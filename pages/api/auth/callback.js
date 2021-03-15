@@ -13,6 +13,16 @@ const getShopInfo = async (accessToken, shop) => {
   });
 };
 
+const accessScope = async (accessToken, shop) => {
+  const headers = {
+    "X-Shopify-Access-Token": accessToken,
+  };
+  const url = `https://${shop}/admin/oauth/access_scopes.json`;
+  return await fetch(url, {
+    headers
+  });
+};
+
 export default nextConnect()
   .use(db)
   .use(shopifyToken)
@@ -42,34 +52,46 @@ export default nextConnect()
         return;
       }
 
-      const { access_token: accessToken, scope } = await shopifyToken.getAccessToken(shop, code);
+      const { access_token: accessToken } = await shopifyToken.getAccessToken(shop, code);
       await Shop.findOneAndUpdate(
         { shop: shopName },
         {
           installedOn: Date.now(),
           isInstalled: true,
-          accessToken: accessToken,
-          scopes: scope,
+          accessToken: accessToken
         }
       ).orFail(new Error("Internal server error2"));
+      const scope = await accessScope(accessToken, shop);
+      if (!scope.ok) {
+        res.status(501).send("fuck that");
+        return
+      }
+      const shopScope = await scope.json();
+      await Shop.findOneAndUpdate(
+        { shop: shopName },
+        {
+          scopes: shopScope.access_scopes.map(scope => scope.handle)
+        }
+      ).orFail(new Error("Internal server error3"));
       const info = await getShopInfo(accessToken, shop);
       if (!info.ok) {
         res.status(501).send("fuck that");
         return
       }
-      const infoData = info.json();
+      const infoData = await info.json();
       await Shop.findOneAndUpdate(
         {
           shop: shopName
         },
         {
           info: infoData.shop,
-          nonce: null,
+          nonce: "",
           webhooks: {},
         }
-      ).orFail(new Error("Internal server error3"));
+      ).orFail(new Error("Internal server error4"));
       return res.redirect(`/?shop=${shopName}.myshopify.com`);
     } catch (error) {
+      console.log(error);
       return res.status(500).send(error.message);
     }
   });

@@ -5,13 +5,12 @@ import translations from "@shopify/polaris/locales/en.json";
 import AppContext from "../src/client/context/AppContext";
 import React, { useState } from "react";
 
-function MyApp(props) {
-  const [shopUrl, setShopUrl] = useState(props.shopOrigin);
+function MyApp({ shopOrigin, pageProps, Component }) {
+  const [shopUrl,] = useState(shopOrigin);
   if (typeof window === `undefined`) return null;
   if (shopUrl === undefined) {
     return <div>hey</div>;
   }
-  const { Component } = props;
   return (
     <AppProvider i18n={translations}>
       <Provider
@@ -22,7 +21,7 @@ function MyApp(props) {
         }}
       >
         <AppContext>
-          <Component {...Component} />
+          <Component {...pageProps} />
         </AppContext>
       </Provider>
     </AppProvider>
@@ -35,7 +34,5 @@ MyApp.getInitialProps = async ({ ctx }) => {
     shopOrigin: ctx.query.shop
   };
 }
-
-
 
 export default MyApp;
